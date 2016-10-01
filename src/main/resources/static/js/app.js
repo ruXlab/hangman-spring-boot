@@ -1,3 +1,9 @@
+
+
+function initUI() {
+
+}
+
 function updateState() {
 
     $.get("/data/game", (r) => {

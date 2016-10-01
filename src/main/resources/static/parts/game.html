@@ -1,0 +1,22 @@
+
+game
+
+{{phones}}
+
+<div class="row">
+    <h1 id="word"></h1>
+
+    <div class="col-md-9 col-xs-12">
+
+    </div>
+
+    <div class="col-md-3 col-xs-12">
+        <h2>Alphabet</h2>
+        <div class="alphabet">
+            <button ng-repeat="item in alphabet" class="btn btn-sm" ng-disabled="!item.enabled">
+                {{item.char}}
+            </button>
+
+        </div>
+    </div>
+</div>
