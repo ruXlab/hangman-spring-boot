@@ -35,7 +35,7 @@ public class GameService {
     public Game onChar(String sessionId, Character ch) {
         Game game = getOrCreateGame(sessionId);
         game.addChar(ch);
-        return game;
+        return gameRepo.save(game);
     }
 
 }

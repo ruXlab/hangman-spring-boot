@@ -4,7 +4,9 @@ game
 {{phones}}
 
 <div class="row">
-    <h1 id="word"></h1>
+    <h1>
+        <span ng-repeat="char in word track by $index" style="text-decoration: underline">{{char}}</span>
+    </h1>
 
     <div class="col-md-9 col-xs-12">
 
@@ -13,8 +15,8 @@ game
     <div class="col-md-3 col-xs-12">
         <h2>Alphabet</h2>
         <div class="alphabet">
-            <button ng-repeat="item in alphabet" class="btn btn-sm" ng-disabled="!item.enabled">
-                {{item.char}}
+            <button ng-repeat="(char, enabled) in alphabet" class="btn btn-sm" ng-disabled="!enabled" ng-click="onGuess(char)">
+                {{char}} {{enabled}}
             </button>
 
         </div>

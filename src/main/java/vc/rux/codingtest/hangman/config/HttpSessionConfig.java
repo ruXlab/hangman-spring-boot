@@ -7,8 +7,8 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.session.jdbc.config.annotation.web.http.EnableJdbcHttpSession;
 import org.springframework.session.web.http.CookieHttpSessionStrategy;
-import org.springframework.session.web.http.HeaderHttpSessionStrategy;
 import org.springframework.session.web.http.HttpSessionStrategy;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.sql.DataSource;
@@ -19,7 +19,10 @@ public class HttpSessionConfig {
     public EmbeddedDatabase dataSource() {
         return new EmbeddedDatabaseBuilder()
                 .setType(EmbeddedDatabaseType.H2)
+
+//                .build();
                 .addScript("org/springframework/session/jdbc/schema-h2.sql").build();
+//                .addScript("org/springframework/session/jdbc").build();
     }
 
     @Bean

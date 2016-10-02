@@ -6,12 +6,23 @@ var app = angular.module('app', []);
 
 
 function GameController($scope, $http) {
-    $scope.alphabet = Array.apply(null, {length: 26})
+    $scope.alphabet = {}
+    $scope.word = ""
+    Array.apply(null, {length: 26})
         .map((x,i) => String.fromCharCode(97 + i) )
-        .map(char => { return {char, enabled: true}});
+        .forEach(ch => $scope.alphabet[ch] = true)
+
+    $scope.onGuess = (char) => {
+        sendGuess(char)
+    }
 
 
     function attachState(state) {
+        console.log(state)
+        $scope.word = state.word;
+        state.guesses.forEach((ch) => {
+            $scope.alphabet[ch] = false;
+        })
 
     }
 
@@ -30,8 +41,8 @@ function GameController($scope, $http) {
     }
 
     function sendGuess(char) {
-        action: (char) => $http
-            .post(`${prefix}/guess`, {character: char} )
+        $http
+            .post("/data/guess", {character: char} )
             .then( (resp) => resp.data, (err) => err )
             .then( attachState)
 
