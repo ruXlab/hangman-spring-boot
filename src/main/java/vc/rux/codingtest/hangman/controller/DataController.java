@@ -1,20 +1,21 @@
 package vc.rux.codingtest.hangman.controller;
 
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import vc.rux.codingtest.hangman.HangmanApplication;
 import vc.rux.codingtest.hangman.entity.Game;
 import vc.rux.codingtest.hangman.misc.Utils;
 import vc.rux.codingtest.hangman.repository.GameRepository;
 import vc.rux.codingtest.hangman.service.GameService;
 
 import javax.servlet.http.HttpSession;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
@@ -34,7 +35,6 @@ public class DataController {
     @RequestMapping(value = "/game", method = RequestMethod.GET)
     public GameState gameState(HttpSession session) {
         Game game = gameService.getOrCreateGame(session.getId());
-
         return new GameState(game);
     }
 
@@ -42,8 +42,6 @@ public class DataController {
     @RequestMapping(value = "/guess", method = RequestMethod.POST)
     public GameState guess(HttpSession session, @RequestBody NewGuessRequest req) {
         Game game = gameService.onChar(session.getId(), req.character);
-
-
         return new GameState(game);
     }
 
@@ -66,33 +64,32 @@ public class DataController {
         public List<Character> word = new ArrayList<>();
         public Long gameId;
         public List<Character> guesses = new ArrayList<>();
-        public boolean finished = false;
-        public boolean won = false;
+        public Boolean finished = false;
+        public Boolean won = false;
         public String answer;
 
         public GameState(Game game) {
             gameId = game.getId();
+            won = game.getWon();
+            finished = game.isFinished();
 
             guesses = Utils.stringToList(game.getChars());
-            List<Character> word = Utils.stringToList(game.getWord());
+            List<Character> wordChars = Utils.stringToList(game.getWord());
+
+
             Set<Character> correct = new HashSet<>();
             for (char ch : guesses) {
-                if (!word.contains(ch)) {
+                if (!wordChars.contains(ch)) {
                     wrong.add(ch);
                 } else {
                     correct.add(ch);
                 }
             }
-            System.out.println(game.getWord());
-            System.out.println(word);
-            System.out.println(correct);
-            System.out.println(wrong);
 
-            this.word = word.stream()
+            word = wordChars.stream()
                     .map(c -> correct.contains(c) ? c : '_')
                     .collect(Collectors.toList());
-            won = !this.word.contains('_');
-            finished = won || guesses.size() >= HangmanApplication.MAX_ATTEMPTS;
+
             answer = finished ? game.getWord() : null;
         }
 

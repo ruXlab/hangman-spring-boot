@@ -30,6 +30,12 @@ public class Game {
     @Column(nullable = false)
     private Date startedAt = new Date();
 
+    @Column(nullable = true)
+    private Date finishedAt;
+
+    @Column(nullable = true)
+    private Boolean won;
+
 
     public Game() {}
 
@@ -85,6 +91,27 @@ public class Game {
     public void setStartedAt(Date startedAt) {
         this.startedAt = startedAt;
     }
+
+    public Date getFinishedAt() {
+        return finishedAt;
+    }
+
+    public void setFinishedAt(Date finishedAt) {
+        this.finishedAt = finishedAt;
+    }
+
+    public Boolean getWon() {
+        return won;
+    }
+
+    public void setWon(Boolean won) {
+        this.won = won;
+    }
+
+    public boolean isFinished() {
+        return getFinishedAt() != null;
+    }
+
 
     @Override
     public boolean equals(Object o) {

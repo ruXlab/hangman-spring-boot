@@ -2,12 +2,15 @@ package vc.rux.codingtest.hangman.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import vc.rux.codingtest.hangman.HangmanApplication;
 import vc.rux.codingtest.hangman.entity.Game;
+import vc.rux.codingtest.hangman.misc.Utils;
 import vc.rux.codingtest.hangman.repository.GameRepository;
 import vc.rux.codingtest.hangman.repository.WordsRepository;
 
-import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class GameService {
@@ -38,6 +41,26 @@ public class GameService {
     public Game onChar(String sessionId, Character ch) {
         Game game = getOrCreateGame(sessionId);
         game.addChar(ch);
+
+
+        List<Character> word = Utils.stringToList(game.getWord());
+        List<Character> guesses = Utils.stringToList(game.getChars());
+        List<Character> wrong = guesses
+                .stream()
+                .filter(c -> !word.contains(c))
+                .collect(Collectors.toList());
+
+        boolean won = word
+                .stream()
+                .filter(c -> !guesses.contains(c))
+                .count() == 0;
+        boolean exceedAttempts = wrong.size() >= HangmanApplication.MAX_ATTEMPTS;
+
+        if (won || exceedAttempts) {
+            game.setFinishedAt(new Date());
+            game.setWon(won);
+        }
+
         return gameRepository.save(game);
     }
 

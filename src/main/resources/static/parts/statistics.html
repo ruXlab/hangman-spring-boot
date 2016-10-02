@@ -1,33 +1,39 @@
 
 <h1> Statistics </h1>
 
-{{statistics}}
+<div class="col-xs-12 col-md-8" ng-repeat="(userSession, games) in statistics.games">
 
+    <div class="panel panel-default " >
+        <!-- Default panel contents -->
+        <div class="panel-heading">User session {{userSession}}</div>
 
-<div class="panel panel-default" ng-repeat="(userSession, games) in statistics.games">
-    <!-- Default panel contents -->
-    <div class="panel-heading">User {{userSession}}</div>
+        <!-- Table -->
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>GameID</th>
+                    <th>Word</th>
+                    <th>Guesses</th>
+                    <th>Started</th>
+                    <th>Finished?</th>
+                    <th>Won?</th>
+                </tr>
+            </thead>
 
-    <!-- Table -->
-    <table class="table">
-        <thead>
-            <tr>
-                <th>GameID</th>
-                <th>Started</th>
-                <th>Finished?</th>
-                <th>Won?</th>
+            <tr ng-repeat="game in games">
+                <td>{{game.id}}</td>
+                <td>{{game.word}}</td>
+                <td>{{game.chars}}</td>
+                <td>{{game.startedAt | date:'medium'}}</td>
+                <td>{{game.finished ? "Yes" : "No"}}</td>
+                <td ng-class="{'success': game.finished && game.won, 'danger': game.finished && !game.won}">
+                    <span ng-show="game.finished">
+                        {{game.won ? "Yes" : "No"}}
+                    </span>
+                </td>
+
             </tr>
-        </thead>
-
-        <tr ng-repeat="game in games">
-            <td>{{game.id}}</td>
-            <td>{{game.startedAt}}</td>
-            <td>{{game.word == game.chars}}</td>
-            <td>{{game.word == game.chars}}</td>
-
-        </tr>
-    </table>
+        </table>
+    </div>
 </div>
-<table class="table table-bordered">
-    <tr
-</table>
+
