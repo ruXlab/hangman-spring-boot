@@ -1,24 +1,43 @@
 
-game
-
-{{phones}}
-
 <div class="row">
-    <h1>
-        <span ng-repeat="char in word track by $index" style="text-decoration: underline">{{char}}</span>
-    </h1>
+
+
+
 
     <div class="col-md-9 col-xs-12">
+        <h1>
+            <span ng-repeat="char in word track by $index" style="text-decoration: underline">{{char}}</span>
+        </h1>
+        <div class="col-md-12 col-xs-12" ng-show="finished">
+            <div class="alert alert-success" role="alert" ng-show="state.won">
+                You won! Good work, you guessed
+                <b>«{{state.answer}}»</b>
+                <br/>
+                <a class="btn btn-link" href="/newgame">Restart Game</a>
+
+            </div>
+
+            <div class="alert alert-danger" role="alert" ng-show="!state.won">
+                You lose :( The word was:
+                <b>«{{state.answer}}»</b>
+                <a class="btn btn-link" href="/newgame">Restart Game</a>
+            </div>
+
+        </div>
+        <div class="col-md-12">
+
+        </div>
 
     </div>
 
     <div class="col-md-3 col-xs-12">
         <h2>Alphabet</h2>
         <div class="alphabet">
-            <button ng-repeat="(char, enabled) in alphabet" class="btn btn-sm" ng-disabled="!enabled" ng-click="onGuess(char)">
+            <button ng-repeat="(char, enabled) in alphabet" class="btn btn-sm" ng-disabled="!enabled || finished" ng-click="onGuess(char)">
                 {{char}} {{enabled}}
             </button>
 
         </div>
     </div>
 </div>
+

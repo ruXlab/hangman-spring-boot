@@ -7,6 +7,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class HangmanApplication {
 
 	public static void main(String[] args) {
+
+
 		SpringApplication.run(HangmanApplication.class, args);
 	}
+
+	public static final int MAX_ATTEMPTS = 5;
 }

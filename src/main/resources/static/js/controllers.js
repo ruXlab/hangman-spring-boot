@@ -7,7 +7,9 @@ var app = angular.module('app', []);
 
 function GameController($scope, $http) {
     $scope.alphabet = {}
+    $scope.finished = $scope.won = false;
     $scope.word = ""
+    $scope.state = {}
     Array.apply(null, {length: 26})
         .map((x,i) => String.fromCharCode(97 + i) )
         .forEach(ch => $scope.alphabet[ch] = true)
@@ -19,10 +21,15 @@ function GameController($scope, $http) {
 
     function attachState(state) {
         console.log(state)
+        $scope.state = state;
         $scope.word = state.word;
+        $scope.finished = state.finished;
+        $scope.won = state.won;
+
         state.guesses.forEach((ch) => {
             $scope.alphabet[ch] = false;
         })
+
 
     }
 

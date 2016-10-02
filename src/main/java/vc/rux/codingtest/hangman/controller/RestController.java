@@ -1,10 +1,12 @@
 package vc.rux.codingtest.hangman.controller;
 
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import vc.rux.codingtest.hangman.HangmanApplication;
 import vc.rux.codingtest.hangman.entity.Game;
 import vc.rux.codingtest.hangman.misc.Utils;
 import vc.rux.codingtest.hangman.repository.GameRepository;
@@ -58,10 +60,13 @@ public class RestController {
      * Game State DTO
      */
     static final class GameState {
-        private Set<Character> wrong = new HashSet<>();
-        private List<Character> word = new ArrayList<>();
-        private Long gameId;
-        private List<Character> guesses = new ArrayList<>();
+        public Set<Character> wrong = new HashSet<>();
+        public List<Character> word = new ArrayList<>();
+        public Long gameId;
+        public List<Character> guesses = new ArrayList<>();
+        public boolean finished = false;
+        public boolean won = false;
+        public String answer;
 
         public GameState(Game game) {
             gameId = game.getId();
@@ -84,23 +89,11 @@ public class RestController {
             this.word = word.stream()
                     .map(c -> correct.contains(c) ? c : '_')
                     .collect(Collectors.toList());
+            won = !this.word.contains('_');
+            finished = won || guesses.size() >= HangmanApplication.MAX_ATTEMPTS;
+            answer = finished ? game.getWord() : null;
         }
 
-        public Set<Character> getWrong() {
-            return wrong;
-        }
-
-        public List<Character> getWord() {
-            return word;
-        }
-
-        public Long getGameId() {
-            return gameId;
-        }
-
-        public List<Character> getGuesses() {
-            return guesses;
-        }
     }
 
 
