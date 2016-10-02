@@ -19,3 +19,5 @@ How to run it?
 ```
 ./gradlew bootRun
 ```
+
+Navigate your browser to [http://localhost:8080](http://localhost:8080)
