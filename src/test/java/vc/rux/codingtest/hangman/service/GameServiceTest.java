@@ -24,41 +24,13 @@ import static org.junit.Assert.*;
  */
 
 @RunWith(SpringRunner.class)
-//@SpringApplicationConfiguration(HangmanApplication.class)
-//@RunWith(SpringRunner.class)
-//@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE, classes = HangmanApplication.class)
-//@WebIntegrationTest
-//@WebMvcTest
 @SpringApplicationConfiguration(HangmanApplication.class)
-//@DataJpaTest(showSql = true)
-//@WebIntegrationTest
-//@ContextConfiguration(classes=HangmanApplication.class, loader=SpringApplicationContextLoader.class)
-//@SpringBootTest(classes = HangmanApplication.class)
-
-@TransactionConfiguration(defaultRollback=false)
-
-//@Rollback(false)
-//@Transactional
-
-
-
 public class GameServiceTest {
     @Autowired
     GameService gameService;
 
     @Autowired
     public GameRepository gameRepository;
-
-    @Test public void as() {
-        assertEquals(0, gameRepository.count());
-        Game g = gameRepository.save(new Game("q", "baz"));
-        assertEquals(1, gameRepository.count());
-        g = gameRepository.save(new Game("q", "baz"));
-        assertEquals(1, gameRepository.count());
-        g = gameRepository.save(new Game("s2", "baz"));
-        assertEquals(2, gameRepository.count());
-        g = gameService.getOrCreateGame("a");
-    }
 
     @Test
     public void getOrCreateGame() throws Exception {
