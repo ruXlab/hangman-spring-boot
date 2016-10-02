@@ -6,7 +6,7 @@
 
     <div class="col-md-9 col-xs-12">
         <h1>
-            <span ng-repeat="char in word track by $index" style="text-decoration: underline">{{char}}</span>
+            <span ng-repeat="char in word track by $index" style="text-decoration: underline; " >{{char}}</span>
         </h1>
         <div class="col-md-12 col-xs-12" ng-show="finished">
             <div class="alert alert-success" role="alert" ng-show="state.won">
@@ -25,6 +25,7 @@
 
         </div>
         <div class="col-md-12">
+            <div ng-include src="'hangman-picture.html'"></div>
 
         </div>
 
@@ -33,11 +34,75 @@
     <div class="col-md-3 col-xs-12">
         <h2>Alphabet</h2>
         <div class="alphabet">
-            <button ng-repeat="(char, enabled) in alphabet" class="btn btn-sm" ng-disabled="!enabled || finished" ng-click="onGuess(char)">
-                {{char}} {{enabled}}
+            <button ng-repeat="(char, enabled) in alphabet"
+                    class="btn btn-sm col-xs-2"
+                    style="margin: 1px"
+                    ng-class="{btn-alert: (char in state.wrong)}"
+                    ng-disabled="!enabled || finished" ng-click="onGuess(char)"
+                    ng-style="{'font-weight': enabled ? 'normal' : 'bold'}">
+                {{char}}
             </button>
 
         </div>
     </div>
 </div>
 
+
+
+<script type="text/ng-template" id="hangman-picture.html">
+    <!-- found it here: https://www.khanacademy.org/computer-programming/hangman-as-svg/6634138124288000 -->
+    <div>
+        <svg version="1.1" width="320" height="320" viewBox="0 0 400 380" fill="none" stroke="#000" stroke-linecap="round" >
+        <!-- Created with SVG-edit - http://svg-edit.googlecode.com/ -->
+        <defs>
+            <symbol id="svg_12" height="480" width="640" >
+                <!-- Created with SVG-edit - http://svg-edit.googlecode.com/ -->
+                <g stroke="null">
+                    <title>Layer 1</title>
+
+                    <line fill="none" stroke-width="5" x1="202" y1="373" x2="206" y2="108" id="svg_10" stroke="#000000"/>
+                    <line fill="none" stroke-width="5" x1="102" y1="374" x2="298" y2="375" id="svg_11" stroke="#000000"/>
+                    <line fill="none" stroke-width="5" x1="205" y1="111" x2="340" y2="111" id="svg_9" stroke="#000000"/>
+                    <line fill="none" stroke-width="5" x1="206" y1="170" x2="259" y2="110" id="svg_8" stroke="#000000"/>
+
+                    <a ng-show="state.wrong.length >= 1">
+                        <ellipse fill="none" stroke-width="5" cx="337" cy="161" id="svg_6" rx="15" ry="23" stroke="#000000"/>
+                    </a>
+                    <a ng-show="state.wrong.length >= 2">
+                        <line fill="none" stroke="#000000" stroke-width="5" x1="337" y1="185" x2="338" y2="248" id="svg_5"/>
+                    </a>
+
+                    <a ng-show="state.wrong.length >= 3">
+                        <line fill="none" stroke-width="5" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x1="340.714302" y1="201.642857" x2="296.7143" y2="179.642857" id="svg_3" stroke="#000000"/>
+                    </a>
+
+                    <a ng-show="state.wrong.length >= 4">
+                        <line fill="none" stroke="#000000" stroke-width="5" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x1="335.714294" y1="201.142883" x2="385.714294" y2="179.142883" id="svg_4"/>
+                    </a>
+
+                    <a ng-show="state.wrong.length >= 5">
+                        <line fill="none" stroke-width="5" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x1="338.714294" y1="248.142883" x2="366.714295" y2="299.142882" id="svg_2" stroke="#000000"/>
+                    </a>
+
+                    <line fill="none" stroke-width="5" x1="338" y1="109" x2="338" y2="140" id="svg_7" stroke="#000000"/>
+                    <a ng-show="state.wrong.length >= 6">
+                        <line fill="none" stroke-width="5" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x1="339.714303" y1="244.142857" x2="309.714303" y2="299.142856" id="svg_1" stroke="#000000"/>
+                    </a>
+                </g>
+            </symbol>
+        </defs>
+        <g>
+            <title>Layer 1</title>
+            <use x="0" y="0" transform="matrix(0.584645688533783,0,0,0.584645688533783,0,0) " xlink:href="#svg_12" id="svg_13"/>
+            <a ng-show="state.wrong.length >= 1">
+                <ellipse ry="3" rx="1" id="svg_14" cy="89" cx="194" stroke-width="2" stroke="#000000" fill="#FF0000"/>
+                <ellipse stroke="#000000" id="svg_16" ry="3" rx="1" cy="89" cx="200" stroke-width="2" fill="#FF0000"/>
+                <path stroke="#000000" id="svg_17" d="m192.177704,101.650452l0,0c0,-3.037521 2.35054,-5.5 5.25,-5.5c2.899445,0 5.25,2.462479 5.25,5.5l-2.625,0c0,-1.518845 -1.175354,-2.75 -2.625,-2.75c-1.449814,0 -2.625,1.231155 -2.625,2.75l-2.625,0z" fill="#000000"/>
+            </a>
+            <path fill="#FF0000" stroke="#000000" stroke-width="5" opacity="0.5" d="m310.5,1195.5" id="svg_18"/>
+            <path fill="#FF0000" stroke="#000000" stroke-width="5" opacity="0.5" d="m328.5,1168.5" id="svg_19"/>
+            <path fill="#FF0000" stroke="#000000" stroke-width="5" opacity="0.5" d="m344.5,1172.5c3,22 1,79 2,29" id="svg_20"/>
+        </g>
+
+    </svg>
+</script>
