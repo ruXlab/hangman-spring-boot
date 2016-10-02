@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 import vc.rux.codingtest.hangman.HangmanApplication;
 import vc.rux.codingtest.hangman.entity.Game;
 import vc.rux.codingtest.hangman.misc.Utils;
@@ -16,15 +17,15 @@ import javax.servlet.http.HttpSession;
 import java.util.*;
 import java.util.stream.Collectors;
 
-@org.springframework.web.bind.annotation.RestController
+@RestController
 @RequestMapping("/data")
-public class RestController {
+public class DataController {
 
     private GameRepository gameRepository;
     private GameService gameService;
 
     @Autowired
-    public RestController(GameRepository gameRepository, GameService gameService) {
+    public DataController(GameRepository gameRepository, GameService gameService) {
         this.gameRepository = gameRepository;
         this.gameService = gameService;
     }
@@ -41,6 +42,7 @@ public class RestController {
     @RequestMapping(value = "/guess", method = RequestMethod.POST)
     public GameState guess(HttpSession session, @RequestBody NewGuessRequest req) {
         Game game = gameService.onChar(session.getId(), req.character);
+
 
         return new GameState(game);
     }

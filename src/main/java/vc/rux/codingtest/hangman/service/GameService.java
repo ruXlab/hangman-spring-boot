@@ -6,19 +6,22 @@ import vc.rux.codingtest.hangman.entity.Game;
 import vc.rux.codingtest.hangman.repository.GameRepository;
 import vc.rux.codingtest.hangman.repository.WordsRepository;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class GameService {
-    private GameRepository gameRepo;
-    private WordsRepository wordsRepo;
+    private GameRepository gameRepository;
+    private WordsRepository wordsRepository;
 
     @Autowired
-    public GameService(GameRepository gameRepo, WordsRepository wordsRepository) {
-        this.gameRepo = gameRepo;
-        this.wordsRepo = wordsRepository;
+    public GameService(GameRepository gameRepository, WordsRepository wordsRepository) {
+        this.gameRepository = gameRepository;
+        this.wordsRepository = wordsRepository;
     }
 
     public Game getOrCreateGame(String sessionId) {
-        Game game = gameRepo.findFirstBySessionIdOrderByStartedAtDesc(sessionId);
+        Game game = gameRepository.findFirstBySessionIdOrderByStartedAtDesc(sessionId);
         if (game == null) {
             game = startNewGame(sessionId);
         }
@@ -27,15 +30,18 @@ public class GameService {
 
 
     public Game startNewGame(String sessionId) {
-        Game game = new Game(sessionId, wordsRepo.getRandomWord());
-        return gameRepo.save(game);
+        Game game = new Game(sessionId, wordsRepository.getRandomWord());
+        return gameRepository.save(game);
     }
 
 
     public Game onChar(String sessionId, Character ch) {
         Game game = getOrCreateGame(sessionId);
         game.addChar(ch);
-        return gameRepo.save(game);
+        return gameRepository.save(game);
     }
 
+    public Iterable<Game> allGames() {
+        return gameRepository.findAll();
+    }
 }

@@ -7,7 +7,6 @@ var app = angular.module('app', []);
 
 function GameController($scope, $http) {
     $scope.alphabet = {}
-    $scope.finished = $scope.won = false;
     $scope.word = ""
     $scope.state = {}
     Array.apply(null, {length: 26})
@@ -56,5 +55,19 @@ function GameController($scope, $http) {
     }
 
     updateGameState()
+
+}
+
+
+function StatisticsController($scope, $http) {
+    $scope.statistics = {};
+    $http
+        .get("/management/statistics")
+        .then( (resp) => resp.data, (err) => err )
+        .then( (stats) => {
+            console.log(stats)
+            $scope.statistics = stats;
+        })
+
 
 }

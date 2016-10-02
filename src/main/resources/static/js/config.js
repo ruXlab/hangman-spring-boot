@@ -10,15 +10,15 @@ app.config(function AppConfig($routeProvider) {
         templateUrl: "../parts/game.html",
         controller: GameController
     });
+    $routeProvider.when('/statistics', {
+        templateUrl: "../parts/statistics.html",
+        controller: StatisticsController
+    });
     $routeProvider.otherwise({
         redirectTo: "/"
     });
 });
 
 
-
-
-// app.run(function ($rootScope, $routeParams) {
-// });
 
 

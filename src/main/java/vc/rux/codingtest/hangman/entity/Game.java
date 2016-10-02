@@ -30,6 +30,7 @@ public class Game {
     @Column(nullable = false)
     private Date startedAt = new Date();
 
+
     public Game() {}
 
     public Game(String sessionId, String word) {

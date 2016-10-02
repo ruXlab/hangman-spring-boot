@@ -12,5 +12,5 @@ public class HangmanApplication {
 		SpringApplication.run(HangmanApplication.class, args);
 	}
 
-	public static final int MAX_ATTEMPTS = 8;
+	public static final int MAX_ATTEMPTS = 7;
 }
