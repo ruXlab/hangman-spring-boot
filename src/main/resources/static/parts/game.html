@@ -5,12 +5,18 @@
 
 
     <div class="col-md-9 col-xs-12">
-        <h1>
-            <span ng-repeat="char in word track by $index" style="text-decoration: underline; " >{{char}}</span>
-        </h1>
-        <div class="col-md-12 col-xs-12" ng-show="finished">
+        <center>
+            <h1 >
+                <span ng-repeat="char in word track by $index" style="letter-spacing: 4pt;  font-family: monospace; " >{{char}}</span>
+            </h1>
+
+        </center>
+        <div class="col-md-6">
+            <div ng-include src="'hangman-picture.html'"></div>
+        </div>
+        <div class="col-md-6 col-xs-12" ng-show="finished">
             <div class="alert alert-success" role="alert" ng-show="state.won">
-                You won! Good work, you guessed
+                You won! Good work, you guessed it
                 <b>«{{state.answer}}»</b>
                 <br/>
                 <a class="btn btn-link" href="/newgame">Restart Game</a>
@@ -20,29 +26,28 @@
             <div class="alert alert-danger" role="alert" ng-show="!state.won">
                 You lose :( The word was:
                 <b>«{{state.answer}}»</b>
+                <br/>
                 <a class="btn btn-link" href="/newgame">Restart Game</a>
             </div>
-
-        </div>
-        <div class="col-md-12">
-            <div ng-include src="'hangman-picture.html'"></div>
 
         </div>
 
     </div>
 
     <div class="col-md-3 col-xs-12">
-        <h2>Alphabet</h2>
-        <div class="alphabet">
+        <div class="alphabet col-xs-12">
+            <h3>Alphabet</h3>
             <button ng-repeat="(char, enabled) in alphabet"
                     class="btn btn-sm col-xs-2"
                     style="margin: 1px"
-                    ng-class="{btn-alert: (char in state.wrong)}"
+                    ng-class="{'btn-danger': (state.wrong.indexOf(char) !== -1), 'btn-success':  (state.word.indexOf(char) !== -1)}"
                     ng-disabled="!enabled || finished" ng-click="onGuess(char)"
                     ng-style="{'font-weight': enabled ? 'normal' : 'bold'}">
                 {{char}}
             </button>
-
+        </div>
+        <div ng-show="state.wrong.length" class="col-xs-12">
+            <b>{{state.wrong.length}}</b> wrong attempts
         </div>
     </div>
 </div>
